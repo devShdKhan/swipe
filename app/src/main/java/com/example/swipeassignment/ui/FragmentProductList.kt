@@ -37,7 +37,11 @@ class FragmentProductList : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViews()
+        startFlowCollectors()
+    }
 
+    private fun initViews() {
         binding.etSearch.addTextChangedListener {
             binding.imgClearQuery.isVisible = it.toString().isNotEmpty()
             viewModel.searchProducts(it.toString())
@@ -50,7 +54,9 @@ class FragmentProductList : Fragment() {
         binding.btnAddProduct.setOnClickListener {
             findNavController().navigate(R.id.action_productListFragment_to_addProductFragment)
         }
+    }
 
+    private fun startFlowCollectors() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.products.collect {
                 when (it) {
@@ -64,7 +70,6 @@ class FragmentProductList : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.filteredList.collect { productAdapter.submitList(it) }
         }
-
     }
 
     private fun setupLoading() {

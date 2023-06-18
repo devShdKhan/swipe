@@ -45,8 +45,8 @@ class AddProductViewModel @Inject constructor(
             false to "Please select product type"
         } else if (product.price == 0.0) {
             false to "Please enter product price"
-        } else if (product.tax == 0.0) {
-            false to "Please enter product tax"
+        } else if (product.tax == 0.0 || product.tax > 100) {
+            false to "Please valid product tax"
         } else true to ""
     }
 
